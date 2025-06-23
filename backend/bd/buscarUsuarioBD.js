@@ -16,7 +16,7 @@ async function buscarUsuarioBD(idUsuario) {
             return null;
         }
 
-        console.log("Usuario encontrado:", users[0]);
+
         return users[0];
 
     } catch (error) {
@@ -30,4 +30,3 @@ async function buscarUsuarioBD(idUsuario) {
 
 module.exports = { buscarUsuarioBD };
 
-buscarUsuarioBD(2)

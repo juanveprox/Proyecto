@@ -4,6 +4,8 @@ import { useAutorizacion } from "../auth/AutorizarUsuario";
 import { Navigate, useNavigate } from "react-router-dom";
 import { API_ULR } from "../auth/ConstURL.JS";
 
+import { Sidebar } from "../components/Sidebar";
+
 const Signup = () => {
     const [nombre, setNombre] = useState("")
     const [usuario, setUsuario] = useState("");
@@ -16,6 +18,8 @@ const Signup = () => {
     }
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const goTo = useNavigate();
+
+    console.log("Hola que tal")
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -45,8 +49,10 @@ const Signup = () => {
 
     //*NOTA AGREGAR VALIDACION DE CAMPOS Y MOSTRAR EN PANTALLA
     return (
-        <DefaultLayout>
-            <form onSubmit={handleSubmit}>
+        // <DefaultLayout>
+        <>
+
+            <form form onSubmit={handleSubmit} >
                 <h1>Registrarse</h1>
                 <label htmlFor="nombre">Nombre</label>
                 <input type="text" id="nombre"
@@ -71,7 +77,9 @@ const Signup = () => {
 
                 <input type="submit" value="Registrarse" />
             </form>
-        </DefaultLayout>
+
+
+        </>
     )
 }
 

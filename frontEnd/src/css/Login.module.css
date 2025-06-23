@@ -1,0 +1,172 @@
+:root {
+    --color-azul: #0099ff;
+}
+
+
+* {
+    font-family: "Raleway", sans-serif;
+    box-sizing: border-box;
+}
+
+main {
+    background-color: #242424;
+    width: 100%;
+    height: 100vh;
+    background-image: url("../assets/ola_fondo_login.svg");
+    background-repeat: no-repeat;
+    background-position: 50%;
+    display: flex;
+    place-items: center;
+    position: relative;
+}
+
+.div_fondo {
+    position: absolute;
+    width: 100%;
+    height: 35%;
+    background-color: var(--color-azul);
+    top: 0%;
+    left: 0%;
+    transform: translate(-0%, -0%);
+}
+
+.formulario {
+    border-radius: 1.5rem;
+    background-color: #fff;
+    width: 40%;
+    margin: 0 auto;
+    position: relative;
+    padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.icono {
+    width: 6rem;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.titulo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+    margin-top: 2rem;
+}
+
+.label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000000;
+    margin: 1rem 0 .2rem;
+    align-self: start;
+}
+
+.input {
+    width: 100%;
+    font-size: 1rem;
+    padding: .4rem;
+    background-color: #E5E5E5;
+    border-radius: .3rem;
+    border: 1px solid #000000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.192);
+    transition: box-shadow 0.5s ease;
+}
+
+.input:focus {
+    outline: none;
+    border: 2px solid var(--color-azul);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.300);
+}
+
+.boton {
+    margin: 2rem 0 1rem;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 1rem;
+    background-color: var(--color-azul);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+    transition: box-shadow 0.3s ease, color 0.3s ease;
+
+}
+
+.boton:hover {
+    box-shadow: 0 0 0 8px rgba(52, 152, 219, 0);
+    color: #c2c2c2;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgba(52, 152, 219, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+    }
+}
+
+.div_error {
+    color: red;
+    font-size: 1rem;
+    margin-top: 0.8rem;
+    align-self: center;
+}
+
+@media screen and (min-width:768px) and (max-width: 1024px) {
+    .div_fondo {
+        height: 40%;
+    }
+
+    .formulario {
+        width: 60%;
+    }
+
+}
+
+
+@media screen and (max-width: 768px) {
+    .div_fondo {
+        height: 50%;
+    }
+
+    .formulario {
+        width: 90%;
+    }
+
+    .icono {
+        width: 5rem;
+    }
+
+    .titulo {
+        font-size: 1.5rem;
+    }
+
+    .label {
+        font-size: 0.9rem;
+    }
+
+    .input {
+        font-size: 0.9rem;
+    }
+
+    .boton {
+        font-size: 0.9rem;
+        padding: 0.8rem 1.5rem;
+    }
+
+}

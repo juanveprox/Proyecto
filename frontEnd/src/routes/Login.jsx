@@ -1,11 +1,10 @@
-import DefaultLayout from "../layout/DefaultLayout"
 import { useState } from "react"
 // import { useAutorizacion } from "../auth/AutorizarUsuario";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import style from "../css/Login.module.css"
 
 import { useAuthContext } from "../auth/AutorizarContexto"
-
+import icono from "../assets/iconos/login_icono.svg"
 
 const Login = () => {
     const [usuario, setUsuario] = useState("");
@@ -19,6 +18,12 @@ const Login = () => {
         setError('');
 
         try {
+
+            if (usuario.length === 0 || password.length === 0) {
+                setError('Usuario y contraseña son obligatorios');
+                return;
+            }
+
             await login(usuario, password);
 
             console.log("Usuario autenticado correctamente");
@@ -26,31 +31,38 @@ const Login = () => {
 
         } catch (error) {
             console.log(error)
-            setError('Usuario o contraseña incorrectos');
+            setError('Usuario o contraseña incorrecta');
         }
     }
 
-
-
-
     return (
-        <DefaultLayout>
-            <form onSubmit={handleSubmit}>
-                {error && <div className="error">{error}</div>}
-                <h1>Iniciar Sesion</h1>
-                <label htmlFor="usuario">Usuario</label>
-                <input type="text" id="usuario"
+        // <DefaultLayout>
+        <main className={style.main}>
+            <div className={style.div_fondo}></div>
+            <form onSubmit={handleSubmit} className={style.formulario}>
+                <img src={icono} alt="icono de candado" className={style.icono} />
+
+                <h1 className={style.titulo}>Iniciar Sesion</h1>
+                <label className={style.label} htmlFor="usuario">Usuario</label>
+                <input className={style.input} type="text" id="usuario"
+                    required
+                    placeholder="Introduce tu usuario"
                     value={usuario}
                     onChange={(e) => setUsuario(e.target.value)} />
 
-                <label htmlFor="password">Contraseña</label>
-                <input type="password" id="password"
+                <label className={style.label} htmlFor="password">Contraseña</label>
+
+                <input className={style.input} type="password" id="password"
+                    required
+                    placeholder="Introduce tu contraseña"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
 
-                <input type="submit" value="Iniciar Sesion" />
+                {error && <div className={style.div_error}>{error}</div>}
+                <input type="submit" className={style.boton} value="Iniciar Sesion" />
             </form>
-        </DefaultLayout>
+        </main>
+        // </DefaultLayout>
 
     )
 }

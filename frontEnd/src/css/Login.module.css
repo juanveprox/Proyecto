@@ -2,13 +2,12 @@
     --color-azul: #0099ff;
 }
 
-
 * {
     font-family: "Raleway", sans-serif;
     box-sizing: border-box;
 }
 
-main {
+.main {
     background-color: #242424;
     width: 100%;
     height: 100vh;
@@ -18,6 +17,7 @@ main {
     display: flex;
     place-items: center;
     position: relative;
+
 }
 
 .div_fondo {

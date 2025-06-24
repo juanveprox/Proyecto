@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { useAuthContext } from "../auth/AutorizarContexto"
 
+
+import Alert from 'react-bootstrap/Alert';
 //*Iconos
 import logoEscuela from "../assets/img/logo_escuela.png"
 import flecha from "../assets/iconos/flecha_icono.svg"
@@ -15,10 +18,18 @@ import { SlCalender } from "react-icons/sl";
 import { IoExitOutline } from "react-icons/io5";
 
 export function Sidebar({ sidebarOpen, setSidebarOpen }) {
+  const { logout } = useAuthContext()
 
   const ModSidebaropen = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  const cerrarSesion = () => {
+    logout()
+
+  }
+
+
   //#region Data links
   const linksArray = [
     {
@@ -79,14 +90,18 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
       label: "Salir",
       icon: <IoExitOutline />,
       to: "/null",
+      onclick: cerrarSesion
     },
   ];
+
 
 
   return (
     <Contenedor className={sidebarOpen ? "sidebarState active" : ""}>
 
-      <Container isOpen={sidebarOpen} >
+
+      {/* isOpen={sidebarOpen} */}
+      <Container  >
 
 
         <div className="Logocontent">
@@ -114,18 +129,24 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
         }
         <Divider />
         {
-          secondarylinksArray.map(({ icon, label, to }) => (
-            <div className="LinkContainer" key={label}>
+          secondarylinksArray.map((item) => (
+            <div className="LinkContainer" key={item.label}>
               <NavLink
-                to={to}
+                to={item.to}
                 className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
+                onClick={(e) => {
+                  if (item.to === "/null") e.preventDefault();
+                  item.onclick?.();
+                }}
               >
-                <div className="Linkicon">{icon}</div>
-                {sidebarOpen && <span>{label}</span>}
+                <div className="Linkicon">{item.icon}</div>
+                {sidebarOpen && <span>{item.label}</span>}
               </NavLink>
             </div>
           ))
         }
+
+
       </Container>
 
     </Contenedor>
@@ -140,29 +161,12 @@ const Container = styled.div`
   color:#fff;
   background:rgb(50, 71, 87);
   position: sticky;
+  top:0;
   z-index:1;
   overflow-x: hidden;
   box-sizing: border-box
   padding-top: 20px;
   height:100vh;
-
- &::-webkit-scrollbar {
-    width: 8px;
-  }
- &::-webkit-scrollbar-track {
-    background-color: #000000;
-    border-radius: 4px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 4px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.8);
-  }
-
-  //Estilos de firefox
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.6) rgba(0, 0, 0, 0.1);
 

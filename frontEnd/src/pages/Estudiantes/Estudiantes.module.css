@@ -1,0 +1,38 @@
+.main {
+    margin: 0;
+    padding: 2rem;
+    background-color: #242424;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.titulo {
+    color: #ffff;
+}
+
+.opciones {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.buscarContenedor {
+    background-color: #ecebeb;
+    padding: 1rem 0;
+    border-radius: .5rem;
+}
+
+.linea {
+    border: 2px solid #000;
+}
+
+.subtitulo {
+    color: #000;
+    text-align: center;
+}
+
+.input {
+    border: 1px solid #000;
+}

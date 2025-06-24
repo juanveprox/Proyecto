@@ -4,6 +4,7 @@ import './index.css'
 import AppRouter from "./routes/AppRouter.jsx"
 import { RouterProvider } from 'react-router-dom'
 import { AuthProvider } from './auth/AutorizarContexto.jsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -1,8 +1,9 @@
-import React from 'react'
-
+import BuscarPersonal from '../../components/buscarPersonal'
 const Obreros = () => {
     return (
-        <div>Obreros</div>
+        <>
+            <BuscarPersonal tipo='obreros' />
+        </>
     )
 }
 

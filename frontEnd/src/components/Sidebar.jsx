@@ -45,7 +45,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
     {
       label: "Administrativo",
       icon: <SiClerk />,
-      to: "/administrativo",
+      to: "/administrativos",
     },
     {
       label: "Docentes",
@@ -99,9 +99,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
   return (
     <Contenedor className={sidebarOpen ? "sidebarState active" : ""}>
 
-
-      {/* isOpen={sidebarOpen} */}
-      <Container  >
+      <Container isOpen={sidebarOpen}>
 
 
         <div className="Logocontent">

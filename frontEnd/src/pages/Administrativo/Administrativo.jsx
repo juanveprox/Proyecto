@@ -1,8 +1,9 @@
-import React from 'react'
-
+import BuscarPersonal from '../../components/buscarPersonal'
 const Administrativo = () => {
     return (
-        <div>Administrativo</div>
+        <>
+            <BuscarPersonal tipo='administrativos' />
+        </>
     )
 }
 

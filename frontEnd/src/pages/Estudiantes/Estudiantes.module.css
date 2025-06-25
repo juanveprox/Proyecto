@@ -1,7 +1,11 @@
+main {
+    background-color: #00000052;
+}
+
 .main {
     margin: 0;
     padding: 2rem;
-    background-color: #242424;
+    /* background-color: #242424; */
     width: 100%;
     min-height: 100vh;
 }

@@ -15,7 +15,8 @@ import Obreros from "../pages/Obreros/Obreros.jsx";
 import EstudianteFormulario from "../components/EstudianteFormulario.jsx"
 import MostrarEstudiantes from "../pages/MostarEstudiantes/MostarEstudiantes.jsx"
 import ListaActividades from "../pages/ListaActividades/ListaActividades.jsx";
-import BaseRegistroPersonal from "../components/RegistroPersonal.jsx";
+import EditarPersonal from "../components/EditarPersonal.jsx";
+
 // Router con las rutas
 const router = createBrowserRouter([
     {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
                         element: <Estudiantes />
                     },
                     {
-                        path: "/administrativo",
+                        path: "/administrativos",
                         element: <Administrativo />
                     },
                     {
@@ -82,8 +83,8 @@ const router = createBrowserRouter([
                         element: <MostrarEstudiantes />
                     },
                     {
-                        path: "/registrar-personal",
-                        element: <BaseRegistroPersonal />
+                        path: "/editar-personal/:id",
+                        element: <EditarPersonal />
                     },
 
 

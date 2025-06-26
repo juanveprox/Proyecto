@@ -1,8 +1,12 @@
 import React from 'react'
-
+import InformacionEstadistica from "../../components/InformacionEstadista"
+import ContenedorInfoEscuela from '../../components/ContenedorInfoEscuela'
 const Inicio = () => {
     return (
-        <div>Inicio</div>
+        <>
+            <ContenedorInfoEscuela />
+            <InformacionEstadistica />
+        </>
     )
 }
 

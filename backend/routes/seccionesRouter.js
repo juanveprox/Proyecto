@@ -26,9 +26,11 @@ router.get('/estudiantes/disponibles', seccionesController.estudiantesNoAsignado
 // Eliminar estudiante de un grado
 router.delete('/:idGrado/estudiantes/:idEstudiante', seccionesController.eliminarEstudiante);
 
-
 // Obtener detalles completos de un grado
 router.get('/:id/detalles', seccionesController.obtenerInfoCompletaGrado);
+
+// Eliminar un grado y sus relaciones
+router.delete('/:id', seccionesController.eliminarSeccion);
 
 
 module.exports = router;

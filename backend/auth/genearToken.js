@@ -6,7 +6,7 @@ function generateAccessToken(user) {
         {
             userId: user.id,
             email: user.coreo,
-            //role: user.role
+            rol: user.rol
         },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '35m' }

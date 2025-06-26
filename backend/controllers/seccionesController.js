@@ -173,6 +173,38 @@ const obtenerInfoCompletaGrado = async (req, res) => {
     }
 }
 
+const eliminarSeccion = async (req, res) => {
+    let conexion = await db.getConnection();
+
+    try {
+        // Iniciar transacción para asegurar integridad de datos
+        await conexion.beginTransaction()
+
+        const { id } = req.params;
+
+
+        // 1. Eliminar relaciones estudiantes-grado
+        await conexion.query('DELETE FROM grado_estudiantes WHERE id_grado = ?', [id]);
+
+        // 2. Eliminar el grado
+        const [result] = await conexion.query('DELETE FROM grados WHERE id = ?', [id]);
+
+        if (result.affectedRows === 0) {
+            await conexion.rollback();
+            return res.status(404).json({ error: 'Grado no encontrado' });
+        }
+
+        await conexion.commit();
+        res.json({ message: 'Grado eliminado correctamente' });
+
+    } catch (error) {
+        await conexion.rollback();
+        console.error('Error eliminando grado:', error);
+        res.status(500).json({ error: 'Error al eliminar el grado' });
+    } finally {
+        if (conexion) conexion.relese()
+    }
+}
 
 
 module.exports = {
@@ -184,5 +216,6 @@ module.exports = {
     obtenerEstudianteGrado,
     estudiantesNoAsignados,
     eliminarEstudiante,
-    obtenerInfoCompletaGrado
+    obtenerInfoCompletaGrado,
+    eliminarSeccion
 }

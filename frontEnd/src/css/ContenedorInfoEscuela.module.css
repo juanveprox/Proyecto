@@ -1,0 +1,34 @@
+.contenedor {
+    background-color: #255C99;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.logo {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+}
+
+.titulo {
+    color: #fff;
+    text-align: center;
+}
+
+.contenedor_info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.info_numero {
+    font-weight: 300;
+    font-family: "Roboto", sans-serif;
+}

@@ -4,6 +4,10 @@ import axios from 'axios';
 import { API_ULR } from "../../auth/constURL"
 import Swal from 'sweetalert2';
 import PDFExporter from '../../utils/PDFExporter';
+import { useDebounce } from '../../utils/useDebounce';
+import ExcelExporter from '../../utils/ExcelExporter';
+import AsistenciaExporterExcel from '../../utils/AsistenciaExporterExcel';
+import DFAsistenciaExporter from '../../utils/DFAsistenciaExporter'
 
 
 const Grados = () => {
@@ -22,6 +26,11 @@ const Grados = () => {
     });
     const [detallesGrado, setDetallesGrado] = useState(null);
     const [showDetallesModal, setShowDetallesModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const debouncedSearchTerm = useDebounce(searchTerm, 300); // 300ms de delay
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [gradoToDelete, setGradoToDelete] = useState(null);
+
 
     const fetchDetallesGrado = async (idGrado) => {
         try {
@@ -33,8 +42,6 @@ const Grados = () => {
             alert('Error al cargar los detalles del grado');
         }
     };
-
-
 
     useEffect(() => {
         fetchGrados();
@@ -150,6 +157,86 @@ const Grados = () => {
         }
     };
 
+    const handleDeleteGrado = async () => {
+        try {
+            const { data } = await axios.get(`${API_ULR}/grados/${gradoToDelete.id}/estudiantes`);
+
+
+            if (data.length > 0) {
+                Swal.fire({
+                    title: `El grado tiene ${data.length} estudiantes asignados`,
+                    text: " ¿Deseas eliminarlo de todos modos?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, estoy seguro",
+                    cancelButtonText: "cancelar",
+                }).then((result) => {
+                    if (result.isDenied) {
+                        return;
+                    }
+                });
+            }
+
+            // Verificar si tiene profesor asignado
+            if (gradoToDelete.id_profesor) {
+                Swal.fire({
+                    title: `El grado tiene un profesor asignado`,
+                    text: " ¿Deseas eliminarlo de todos modos?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Si, estoy seguro",
+                    cancelButtonText: "cancelar",
+                }).then((result) => {
+                    if (result.isDenied) {
+                        return;
+                    }
+                });
+            }
+
+            await axios.delete(`${API_ULR}/grados/${gradoToDelete.id}`);
+
+
+
+            // Actualizar lista de grados
+            fetchGrados();
+
+            // Cerrar modal y limpiar
+            setShowDeleteModal(false);
+            setGradoToDelete(null);
+
+            // Mostrar notificación
+            Swal.fire({
+                icon: "success",
+                title: "Grado eliminado correctamente",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+        } catch (error) {
+            console.error('Error eliminando grado:', error);
+
+            Swal.fire({
+                icon: "error",
+                title: "Error al eliminar el grado"
+            });
+        }
+    };
+
+
+    // Función para filtrar estudiantes disponibles
+    const filteredEstudiantesDisponibles = estudiantesDisponibles.filter(estudiante => {
+        const searchLower = debouncedSearchTerm.toLowerCase();
+        return (
+            estudiante.nombres.toLowerCase().includes(searchLower) ||
+            estudiante.apellidos.toLowerCase().includes(searchLower) ||
+            estudiante.cedula_escolar.toLowerCase().includes(searchLower)
+        );
+    });
+
 
     return (
         <Container>
@@ -211,6 +298,17 @@ const Grados = () => {
                                                     className="ms-2"
                                                 >
                                                     Ver Detalles
+                                                </Button>
+                                                <Button
+                                                    variant="danger"
+                                                    size="sm"
+                                                    onClick={() => {
+                                                        setGradoToDelete(grado);
+                                                        setShowDeleteModal(true);
+                                                    }}
+                                                    className="m-2"
+                                                >
+                                                    Eliminar
                                                 </Button>
                                             </td>
                                         </tr>
@@ -371,6 +469,15 @@ const Grados = () => {
                     </Table>
 
                     <h5>Agregar estudiantes</h5>
+                    <Form.Group className="mb-3">
+                        <Form.Control
+                            type="text"
+                            placeholder="Buscar estudiantes por nombre, apellido o cédula..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </Form.Group>
+
                     <Table striped bordered hover size="sm">
                         <thead>
                             <tr>
@@ -381,27 +488,41 @@ const Grados = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {estudiantesDisponibles.map((estudiante) => (
-                                <tr key={estudiante.id}>
-                                    <td>{estudiante.nombres}</td>
-                                    <td>{estudiante.apellidos}</td>
-                                    <td>{estudiante.cedula_escolar}</td>
-                                    <td>
-                                        <Button
-                                            variant="success"
-                                            size="sm"
-                                            onClick={() => handleAgregarEstudiante(estudiante.id)}
-                                        >
-                                            Agregar
-                                        </Button>
+                            {filteredEstudiantesDisponibles.length > 0 ? (
+                                filteredEstudiantesDisponibles.map((estudiante) => (
+                                    <tr key={estudiante.id}>
+                                        <td>{estudiante.nombres}</td>
+                                        <td>{estudiante.apellidos}</td>
+                                        <td>{estudiante.cedula_escolar}</td>
+                                        <td>
+                                            <Button
+                                                variant="success"
+                                                size="sm"
+                                                onClick={() => handleAgregarEstudiante(estudiante.id)}
+                                            >
+                                                Agregar
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className="text-center">
+                                        {estudiantesDisponibles.length === 0
+                                            ? 'No hay estudiantes disponibles para agregar'
+                                            : 'No se encontraron resultados para tu búsqueda'}
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </Table>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowEstudiantesModal(false)}>
+                    <Button variant="secondary"
+                        onClick={() => {
+                            setShowEstudiantesModal(false)
+                            setSearchTerm('');
+                        }}>
                         Cerrar
                     </Button>
                 </Modal.Footer>
@@ -482,13 +603,33 @@ const Grados = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <PDFExporter data={detallesGrado} />
+                    {/* <AsistenciaExporterExcel data={detallesGrado} /> */}
+                    <ExcelExporter data={detallesGrado} />
+                    <DFAsistenciaExporter data={detallesGrado} />
                     <Button variant="secondary" onClick={() => setShowDetallesModal(false)}>
                         Cerrar
                     </Button>
                 </Modal.Footer>
             </Modal>
 
-
+            <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirmar Eliminación</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    ¿Estás seguro de eliminar el grado {gradoToDelete?.nombre} sección {gradoToDelete?.seccion}?
+                    <br />
+                    <strong>Esta acción no se puede deshacer.</strong>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={handleDeleteGrado}>
+                        Confirmar Eliminación
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 };

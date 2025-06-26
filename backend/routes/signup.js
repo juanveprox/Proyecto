@@ -4,9 +4,9 @@ const pool = require("../bd/conexionBD")
 const bcrypt = require("bcrypt")
 
 router.post("/", async (req, res) => {
-    const { nombre, usuario, correo, password } = req.body
+    const { nombre, usuario, correo, clave, rol } = req.body
+    const password = clave;
 
-    console.log(req.body)
     //*Vemos si los campos no esta vacios
     if (!!!nombre || !!!usuario || !!!correo || !!!password) {
         return res.status(400).json(jsonResponse(400, {
@@ -31,12 +31,12 @@ router.post("/", async (req, res) => {
 
         if (usuarioExistente.length > 0) {
             return res.status(409).json({
-                error: 'El usuario ya esta registrado'
+                error: 'El usuario ya se encuentra registrado'
             });
         } else if (correoExistente.length > 0) {
 
             return res.status(409).json({
-                error: 'El email ya esta registrado'
+                error: 'El email ya se encuentra registrado'
             });
         }
 
@@ -44,15 +44,14 @@ router.post("/", async (req, res) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        //*Crear usuario en la base de datos
+        // //*Crear usuario en la base de datos
         const [result] = await pool.query(
-            'INSERT INTO usuarios (nombre, usuario, correo, contraseña) VALUES (?, ?, ?, ?)',
-            [nombre, usuario, correo, hashedPassword]
+            'INSERT INTO usuarios (nombre, usuario, correo, contraseña, rol) VALUES (?, ?, ?, ?, ?)',
+            [nombre, usuario, correo, hashedPassword, rol]
         );
         console.log(result)
 
         res.status(200).json(jsonResponse(200, { mensaje: "Usuario creado con exito" }))
-        res.send("Signup")
 
     } catch (error) {
         console.error('Error en registro:', error);

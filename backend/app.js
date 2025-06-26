@@ -100,12 +100,14 @@ app.use("/api/personal", personalRouter); // Protegido con autenticación (auten
 //         res.status(500).json({ message: err.message });
 //     }
 // });
-
 //!Ruta secciones
 //! app.use("/api/secciones", require("./routes/seccionesRoute"))
 
 //Ruta de las secciones (grados)
 app.use("/api/grados", require("./routes/seccionesRouter"))
+
+//Ruta obtener informacion de todos los registrados
+app.use("/api/estadistica", require("./routes/obtenerEstadisticaRouter"))
 
 // Ruta de Bienvenida y Manejo de Errores
 app.get("/api", (req, res) => {

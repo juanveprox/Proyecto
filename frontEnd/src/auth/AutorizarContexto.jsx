@@ -7,7 +7,6 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [accessToken, setAccessToken] = useState(null);
     const [loading, setLoading] = useState(true);
-
     const isAuthenticated = useMemo(() => {
         return !!user && !!accessToken; // Devuelve true si existen user y accessToken
     }, [user, accessToken]);
@@ -20,7 +19,6 @@ export const AuthProvider = ({ children }) => {
                 const token = localStorage.getItem('accessToken');
                 if (token) {
                     // Verificar si el token es válido obteniendo datos de usuario
-                    // const userResponse = await api.get('/auth/me');
                     const userRespuesta = await fetch(`${API_ULR}/usuario`, {
                         method: "get",
                         headers: {
@@ -30,15 +28,17 @@ export const AuthProvider = ({ children }) => {
                     })
 
                     if (!userRespuesta.ok) throw new Error("Error en la respuesta");
-                    const userData = await userRespuesta.json(); // Convertir respuesta a JSON
-
-                    setUser(userData);
+                    const userData = await userRespuesta.json();
+                    console.log(userData)
+                    setUser(userData.body.usuario);
                     setAccessToken(token);
                 }
             } catch (error) {
                 console.error('Error inicializando autenticación:', error);
-                //*Si el token está expirado, podrías redirigir al login:
                 logout(); // Limpiar estado si hay error
+
+                //!Ojo solucion Rapido (solucinarmejor)
+                window.location.href = '/';
                 localStorage.removeItem('accessToken');
             } finally {
                 setLoading(false);
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
         inicializarAutenticación();
     }, []);
 
-    // Función de login
+    //* Función de login
     const login = async (usuario, password) => {
         try {
             const respuesta = await fetch(`${API_ULR}/login`, {
@@ -70,7 +70,6 @@ export const AuthProvider = ({ children }) => {
 
             const json = (await respuesta.json())
             localStorage.setItem('accessToken', json.body.accessToken);
-
             setUser(json.body.datosUsuario);
             setAccessToken(json.body.accessToken);
 

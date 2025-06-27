@@ -6,7 +6,7 @@ import BaseRegistroPersonal from './RegistroPersonal';
 import DetallePersonal from './DetallePersonal';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-
+import MostarInfoAdmin from './MostarInfoAdmin';
 
 const BuscarPersonal = ({ tipo }) => {
     const navigate = useNavigate();
@@ -221,14 +221,15 @@ const BuscarPersonal = ({ tipo }) => {
                                                             >
                                                                 Editar
                                                             </Button>
-
-                                                            <Button
-                                                                variant="danger"
-                                                                size="sm"
-                                                                onClick={() => confirmarEliminacion(persona)}
-                                                            >
-                                                                Eliminar
-                                                            </Button>
+                                                            <MostarInfoAdmin>
+                                                                <Button
+                                                                    variant="danger"
+                                                                    size="sm"
+                                                                    onClick={() => confirmarEliminacion(persona)}
+                                                                >
+                                                                    Eliminar
+                                                                </Button>
+                                                            </MostarInfoAdmin>
                                                         </td>
                                                     </tr>
                                                 ))

@@ -1,6 +1,5 @@
 import Login from "./Login.jsx"
 import Signup from "./Signup.jsx"
-import Dashboard from "./Dashboard.jsx"
 import ProtectedRoute from './RutaProtegida.jsx';
 import { createBrowserRouter } from "react-router-dom";
 import LayoutConSidebar from "../layout/LayoutConSidebar.jsx";
@@ -16,6 +15,9 @@ import EstudianteFormulario from "../components/EstudianteFormulario.jsx"
 import MostrarEstudiantes from "../pages/MostarEstudiantes/MostarEstudiantes.jsx"
 import ListaActividades from "../pages/ListaActividades/ListaActividades.jsx";
 import EditarPersonal from "../components/EditarPersonal.jsx";
+import AdminRouter from "./AdminRouter.jsx";
+import AccesoDenegado from "../pages/AccesoDenegado/AccesoDenegado.jsx";
+import EditarUsuario from "../pages/EditarUsuario/EditarUsuario.jsx";
 
 // Router con las rutas
 const router = createBrowserRouter([
@@ -23,7 +25,9 @@ const router = createBrowserRouter([
         path: "/",
         element: <Login />
     },
-    // {Activar para registrar por primera vez
+    //* Activar para registrar por primera vez
+    //*Borrar Despues de crear el primer Usuario
+    // {
     //     path: "/registrar",
     //     element: <Signup />
     // },
@@ -86,13 +90,18 @@ const router = createBrowserRouter([
                         path: "/editar-personal/:id",
                         element: <EditarPersonal />
                     },
-
-
-
-
+                    {
+                        path: "/acceso-denegado",
+                        element: <AccesoDenegado />
+                    },
                     {
                         path: "/registrar",
-                        element: <Signup />
+                        element: <AdminRouter><Signup /></AdminRouter>
+                    },
+                    {
+                        path: "/editar-usuario",
+                        element: <AdminRouter> <EditarUsuario /></AdminRouter>
+
                     }
                 ]
             },

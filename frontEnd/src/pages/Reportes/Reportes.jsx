@@ -4,7 +4,7 @@ import { FaUpload, FaFilePdf, FaFileWord, FaFileExcel, FaTimes, FaInfoCircle } f
 import Swal from 'sweetalert2';
 import { URL_CORTA, API_ULR } from '../../auth/constURL';
 import { useNavigate } from 'react-router-dom';
-
+import MostarInfoAdmin from '../../components/MostarInfoAdmin';
 
 
 
@@ -291,12 +291,14 @@ const Reportes = () => {
                                                 >
                                                     Descargar
                                                 </button>
-                                                <button
-                                                    className="btn btn-sm btn-outline-danger"
-                                                    onClick={() => deleteFile(file.id, file.nombre_guardado)}
-                                                >
-                                                    Eliminar
-                                                </button>
+                                                <MostarInfoAdmin>
+                                                    <button
+                                                        className="btn btn-sm btn-outline-danger"
+                                                        onClick={() => deleteFile(file.id, file.nombre_guardado)}
+                                                    >
+                                                        Eliminar
+                                                    </button>
+                                                </MostarInfoAdmin>
                                             </td>
                                         </tr>
                                     ))}

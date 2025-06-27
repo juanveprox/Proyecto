@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import style from "./Estudiantes.module.css"
 import StudentSearch from '../../components/buscarEstudiante';
+
+
 const Estudiantes = () => {
     const navigate = useNavigate();
     const redirigir = () => {
         navigate("/crear-estudiante")
     }
-
-
 
     return (
         <div className={style.main}>

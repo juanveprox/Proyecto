@@ -9,7 +9,7 @@ function generateAccessToken(user) {
             rol: user.rol
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '35m' }
+        { expiresIn: '1h' }
     );
 }
 

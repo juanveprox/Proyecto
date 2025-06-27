@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
             }
 
 
-            res.status(200).json(jsonResponse(200, usuario));
+            res.status(200).json(jsonResponse(200, { usuario }));
         } catch (error) {
             console.error('Error buscando usuario:', error);
             res.sendStatus(500);

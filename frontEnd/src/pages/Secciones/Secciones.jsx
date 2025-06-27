@@ -8,7 +8,7 @@ import { useDebounce } from '../../utils/useDebounce';
 import ExcelExporter from '../../utils/ExcelExporter';
 import AsistenciaExporterExcel from '../../utils/AsistenciaExporterExcel';
 import DFAsistenciaExporter from '../../utils/DFAsistenciaExporter'
-
+import MostarInfoAdmin from '../../components/MostarInfoAdmin';
 
 const Grados = () => {
     const [grados, setGrados] = useState([]);
@@ -240,14 +240,18 @@ const Grados = () => {
 
     return (
         <Container>
+
             <Row className="my-4">
                 <Col>
                     <h1>Gestión de Grados</h1>
-                    <Button variant="primary" onClick={() => setShowModal(true)}>
-                        Crear Nuevo Grado
-                    </Button>
+                    <MostarInfoAdmin>
+                        <Button variant="primary" onClick={() => setShowModal(true)}>
+                            Crear Nuevo Grado
+                        </Button>
+                    </MostarInfoAdmin>
                 </Col>
             </Row>
+
 
             <Row>
                 <Col>
@@ -299,17 +303,19 @@ const Grados = () => {
                                                 >
                                                     Ver Detalles
                                                 </Button>
-                                                <Button
-                                                    variant="danger"
-                                                    size="sm"
-                                                    onClick={() => {
-                                                        setGradoToDelete(grado);
-                                                        setShowDeleteModal(true);
-                                                    }}
-                                                    className="m-2"
-                                                >
-                                                    Eliminar
-                                                </Button>
+                                                <MostarInfoAdmin>
+                                                    <Button
+                                                        variant="danger"
+                                                        size="sm"
+                                                        onClick={() => {
+                                                            setGradoToDelete(grado);
+                                                            setShowDeleteModal(true);
+                                                        }}
+                                                        className="m-2"
+                                                    >
+                                                        Eliminar
+                                                    </Button>
+                                                </MostarInfoAdmin>
                                             </td>
                                         </tr>
                                     ))}

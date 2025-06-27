@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../auth/AutorizarContexto"
+import MostarInfoAdmin from "../components/MostarInfoAdmin";
 
-
-import Alert from 'react-bootstrap/Alert';
 //*Iconos
 import logoEscuela from "../assets/img/logo_escuela.png"
 import flecha from "../assets/iconos/flecha_icono.svg"
@@ -15,22 +14,52 @@ import { GrUserWorker, GrDocumentConfig } from "react-icons/gr";
 import { TfiBlackboard } from "react-icons/tfi";
 import { HiDocumentReport } from "react-icons/hi";
 import { SlCalender } from "react-icons/sl";
-import { IoExitOutline } from "react-icons/io5";
+import { IoExitOutline, IoPersonAdd } from "react-icons/io5";
+import { FaAddressBook } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 export function Sidebar({ sidebarOpen, setSidebarOpen }) {
-  const { logout } = useAuthContext()
+  const { logout, user } = useAuthContext()
+
+  console.log(user)
 
   const ModSidebaropen = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
   const cerrarSesion = () => {
-    logout()
 
+    Swal.fire({
+      title: "Salir",
+      text: "Estas seguro que quieres cerrar sesion",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, salir",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout()
+      }
+    });
   }
 
-
   //#region Data links
+
+  const linksAdmin = [
+    {
+      label: "registrar Usuarios",
+      icon: <IoPersonAdd />,
+      to: "/registrar",
+    },
+    {
+      label: "Editar Usuarios",
+      icon: <FaAddressBook />,
+      to: "/editar-usuario",
+    },
+  ]
+
   const linksArray = [
     {
       label: "Inicio",
@@ -106,12 +135,29 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
           <div className="imgcontent">
             <img src={logoEscuela} />
           </div>
-          <h2>Holaquetal</h2>
+          <h2>{` ${user.nombre}`}</h2>
         </div>
 
         <button className="Sidebarbutton" onClick={ModSidebaropen}>
           <img src={flecha} alt="flecha" />
         </button>
+
+        <MostarInfoAdmin>        {
+          linksAdmin.map(({ icon, label, to }) => (
+            <div className="LinkContainer" key={label}>
+              <NavLink
+                to={to}
+                className={({ isActive }) => `Links${isActive ? ` active` : ``}`}
+              >
+                <div className="Linkicon">{icon}</div>
+                {sidebarOpen && <span>{label}</span>}
+              </NavLink>
+            </div>
+          ))
+        }
+          <Divider />
+        </MostarInfoAdmin>
+
         {
           linksArray.map(({ icon, label, to }) => (
             <div className="LinkContainer" key={label}>
@@ -198,6 +244,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     padding-bottom: 24px;
+    gap:1rem;
 
     .imgcontent {
       display: flex;

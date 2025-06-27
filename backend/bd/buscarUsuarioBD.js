@@ -8,7 +8,7 @@ async function buscarUsuarioBD(idUsuario) {
         }
 
         const [users] = await pool.query(
-            'SELECT id, nombre ,usuario, correo FROM usuarios WHERE id = ?',
+            'SELECT id, nombre ,usuario, correo, rol  FROM usuarios WHERE id = ?',
             [idUsuario]
         );
 

@@ -109,6 +109,9 @@ app.use("/api/grados", require("./routes/seccionesRouter"))
 //Ruta obtener informacion de todos los registrados
 app.use("/api/estadistica", require("./routes/obtenerEstadisticaRouter"))
 
+//Ruta editar usuarios
+app.use("/api/users", require("./routes/usersRouter"))
+
 // Ruta de Bienvenida y Manejo de Errores
 app.get("/api", (req, res) => {
     res.json({

@@ -37,8 +37,6 @@ const EditarPersonal = () => {
     const [error, setError] = useState(null);
     const [nuevoArchivo, setNuevoArchivo] = useState(null);
 
-    console.log(personal.archivos)
-
     useEffect(() => {
         const fetchPersonal = async () => {
             try {

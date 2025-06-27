@@ -42,65 +42,11 @@ app.use("/api/editar-estudiante", require("./routes/editarEstudiantes"));
 app.use("/api/estudiantes", require("./routes/estudianteRutas"));
 
 //  Rutas de Actividades y Archivos
-const uploadRoutes = require("./routes/subirArchivo");
-app.use("/api", uploadRoutes);
+app.use("/api", require("./routes/subirArchivo"));
 app.use("/api/actividades", require("./routes/actividad"));
 
 //  Integración del PersonalRouter
-const personalRouter = require("./routes/personalRoutes");
-app.use("/api/personal", personalRouter); // Protegido con autenticación (autenticar,)
-
-//!OJO
-// app.get('/api/profesores', async (req, res) => {
-//     const { search } = req.query;
-
-//     try {
-//         let query = `SELECT 
-//                   id, 
-//                   primer_nombre AS nombre, 
-//                   primer_apellido AS apellido, 
-//                   cedula 
-//                 FROM personal 
-//                 WHERE tipo = 'docente'`;
-//         const params = [];
-
-//         if (search) {
-//             query += ' AND (primer_nombre LIKE ? OR primer_apellido LIKE ? OR cedula LIKE ?)';
-//             const searchTerm = `%${search}%`;
-//             params.push(searchTerm, searchTerm, searchTerm);
-//         }
-
-//         query += ' ORDER BY primer_apellido, primer_nombre LIMIT 50';
-
-//         const [profesores] = await pool.query(query, params);
-//         res.json(profesores);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
-// app.get('/api/estudiantes', async (req, res) => {
-//     const { search } = req.query;
-
-//     try {
-//         let query = 'SELECT id, nombres AS nombre, apellidos AS apellido, cedula_escolar, genero AS sexo FROM estudiantes';
-//         const params = [];
-
-//         if (search) {
-//             query += ' WHERE nombres LIKE ? OR apellidos LIKE ? OR cedula_escolar LIKE ?';
-//             const searchTerm = `%${search}%`;
-//             params.push(searchTerm, searchTerm, searchTerm);
-//         }
-
-//         query += ' ORDER BY apellidos, nombres LIMIT 50';
-
-//         const [estudiantes] = await pool.query(query, params);
-//         res.json(estudiantes);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
-//!Ruta secciones
-//! app.use("/api/secciones", require("./routes/seccionesRoute"))
+app.use("/api/personal", require("./routes/personalRoutes")); // Protegido con autenticación (autenticar,)
 
 //Ruta de las secciones (grados)
 app.use("/api/grados", require("./routes/seccionesRouter"))

@@ -1,6 +1,7 @@
 const pool = require('../bd/conexionBD');
 const { deleteUploadedFiles } = require('../lib/servicioArchivos');
-
+const fs = require('fs');
+const path = require('path');
 
 const crearActividad = async (req, res) => {
 
@@ -151,11 +152,11 @@ const eliminarActividad = async (req, res) => {
         }
 
         // 4. Eliminar archivos físicos
-        const fs = require('fs');
-        const path = require('path');
 
         imagenes.forEach(imagen => {
-            const filePath = path.join(__dirname, '../uploads-actividades', imagen.imagen_url);
+            const projectRoot = path.dirname(__dirname);
+            const filePath = path.join(projectRoot, imagen.imagen_url);
+            console.log(filePath)
             if (fs.existsSync(filePath)) {
                 fs.unlinkSync(filePath);
             }

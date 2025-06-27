@@ -1,5 +1,5 @@
 function infoUsuario(objeto) {
-    const propiedades = ["id", "nombre", "usuario", "rol"]
+    const propiedades = ["id", "nombre", "usuario", "correo", "rol"]
     let resultado = {};
     propiedades.forEach(prop => {
         if (prop in objeto) {

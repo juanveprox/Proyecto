@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
 
         //*Buscar usuario en la base de datos
         const [users] = await pool.query(
-            'SELECT id,nombre ,usuario, contraseña, rol FROM usuarios WHERE usuario = ?',
+            'SELECT id,nombre ,usuario, contraseña, correo, rol FROM usuarios WHERE usuario = ?',
             [usuario]
         );
 
@@ -45,9 +45,6 @@ router.post("/", async (req, res) => {
 
         const datosUsuario = infoUsuario(user)
         console.log(datosUsuario)
-
-
-        // res.status(200).json(jsonResponse(200, { datosUsuario, accessToken, refreshToken }))
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,

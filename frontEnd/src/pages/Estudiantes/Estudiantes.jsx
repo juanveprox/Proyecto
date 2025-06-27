@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import style from "./Estudiantes.module.css"
 import StudentSearch from '../../components/buscarEstudiante';
+import { PiStudentBold } from "react-icons/pi";
 
 
 const Estudiantes = () => {
@@ -11,7 +12,8 @@ const Estudiantes = () => {
 
     return (
         <div className={style.main}>
-            <h1 className={style.titulo}>Estudiantes</h1>
+            <h1 className={style.titulo}> <PiStudentBold />
+                Estudiantes</h1>
             <div className={style.buscarContenedor}>
                 <div className={style.opciones}>
                     <button type="button" className="btn btn-primary" onClick={() =>

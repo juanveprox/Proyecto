@@ -21,8 +21,6 @@ import Swal from "sweetalert2";
 export function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const { logout, user } = useAuthContext()
 
-  console.log(user)
-
   const ModSidebaropen = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -113,7 +111,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }) {
     {
       label: "Configuración",
       icon: <GrDocumentConfig />,
-      to: "/null",
+      to: "/configuracion",
     },
     {
       label: "Salir",

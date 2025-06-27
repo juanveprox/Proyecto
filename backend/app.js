@@ -4,7 +4,6 @@ const app = express();
 const autenticar = require("./auth/autenticar");
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const pool = require("./bd/conexionBD")
 
 require("dotenv").config();
 
@@ -143,5 +142,5 @@ app.use((err, req, res, next) => {
 // 8. Inicio del Servidor
 app.listen(port, () => {
     console.log(`Servidor ejecutándose en el puerto: ${port}`);
-    console.log(`Entorno: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`Entorno: ${process.env.NODE_ENV || 'Desarrollo'}`);
 });

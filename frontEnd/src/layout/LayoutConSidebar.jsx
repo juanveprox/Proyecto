@@ -5,16 +5,16 @@ import styled from "styled-components";
 
 const LayoutConSidebar = () => {
 
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-    return (
-        <LayoutContainer>
-            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            <MainContent $sidebarOpen={sidebarOpen}>
-                <Outlet /> {/* Aquí se renderizarán Dashboard, Signup, etc. */}
-            </MainContent>
-        </LayoutContainer>
-    )
+  return (
+    <LayoutContainer>
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <MainContent $sidebarOpen={sidebarOpen}>
+        <Outlet /> {/* Aquí se renderizarán Dashboard, Signup, etc. */}
+      </MainContent>
+    </LayoutContainer>
+  )
 }
 
 

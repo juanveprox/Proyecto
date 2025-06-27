@@ -11,7 +11,8 @@ main {
 }
 
 .titulo {
-    color: #ffff;
+    color: #212529;
+    vertical-align: middle;
 }
 
 .opciones {

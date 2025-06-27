@@ -37,6 +37,8 @@ const EditarPersonal = () => {
     const [error, setError] = useState(null);
     const [nuevoArchivo, setNuevoArchivo] = useState(null);
 
+    console.log(personal.archivos)
+
     useEffect(() => {
         const fetchPersonal = async () => {
             try {
@@ -85,8 +87,9 @@ const EditarPersonal = () => {
 
             // Agregar archivo si existe
             if (nuevoArchivo) {
-                formData.append('archivo', nuevoArchivo);
+                formData.append('archivos', nuevoArchivo);
             }
+
 
             await axios.put(`${API_ULR}/personal/${id}`, formData, {
                 headers: {
@@ -261,7 +264,7 @@ const EditarPersonal = () => {
                                 <input
                                     type="date"
                                     name="fecha_nacimiento"
-                                    value={personal.fecha_nacimiento}
+                                    value={personal.fecha_nacimiento.split('T')[0]}
                                     onChange={handleChange}
                                     className="form-control"
                                 />
@@ -352,7 +355,7 @@ const EditarPersonal = () => {
                                 <input
                                     type="date"
                                     name="fecha_ingreso_mppe"
-                                    value={personal.fecha_ingreso_mppe}
+                                    value={personal.fecha_ingreso_mppe.split('T')[0]}
                                     onChange={handleChange}
                                     className="form-control"
                                 />
@@ -436,14 +439,21 @@ const EditarPersonal = () => {
                         <h2 className="h5 mb-0">Archivos Adjuntos</h2>
                     </div>
                     <div className="card-body">
-                        <div className="mb-3">
-                            <label className="form-label">Agregar Nuevo Archivo</label>
-                            <input
-                                type="file"
-                                onChange={handleFileChange}
-                                className="form-control"
-                            />
-                        </div>
+                        {(!personal.archivos || personal.archivos.length < 3) && (
+                            <div className="mb-3">
+                                <label className="form-label">Agregar Nuevo Archivo</label>
+                                <input
+                                    type="file"
+                                    onChange={handleFileChange}
+                                    className="form-control"
+                                    // Opcional: deshabilitar si ya hay 3 archivos
+                                    disabled={personal.archivos?.length >= 3}
+                                />
+                                {personal.archivos?.length >= 3 && (
+                                    <small className="text-muted">Máximo 3 archivos permitidos</small>
+                                )}
+                            </div>
+                        )}
 
                         {personal.archivos && personal.archivos.length > 0 ? (
                             <div className="list-group">

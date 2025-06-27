@@ -147,6 +147,18 @@ class PersonalController {
     async actualizarPersonal(req, res) {
         const { id } = req.params;
         const datos = req.body;
+        const archivos = req.files || [];
+
+        //Formatear la fecha a un formato yyyy/mm/dd
+        function formatDateForDB(dateString) {
+            if (!dateString) return null;
+
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return null;
+
+            // Formato YYYY-MM-DD compatible con MySQL
+            return date.toISOString().split('T')[0];
+        }
 
 
         try {
@@ -160,12 +172,18 @@ class PersonalController {
                     });
                 }
             }
-            const actualizado = await this.personal.actualizar(id, datos
-                //     {
-                //     ...datos
-                //     // fecha_nacimiento: datos.fecha_nacimiento ? new Date(datos.fechaNacimiento).toISOString().split('T')[0] : undefined,
-                //     // fecha_ingreso_mppe: datos.fecha_ingreso_mppe ? new Date(datos.fechaIngresoMPPE).toISOString().split('T')[0] : undefined
-                // }
+
+
+            const actualizado = await this.personal.actualizar(id,
+                {
+                    ...datos,
+                    fecha_nacimiento: datos.fecha_nacimiento
+                        ? formatDateForDB(datos.fecha_nacimiento)
+                        : null,
+                    fecha_ingreso_mppe: datos.fecha_ingreso_mppe
+                        ? formatDateForDB(datos.fecha_ingreso_mppe)
+                        : null
+                }
             );
 
             if (!actualizado) {
@@ -174,6 +192,17 @@ class PersonalController {
                     message: 'Personal no encontrado'
                 });
             }
+            if (archivos.length > 0) {
+                for (const archivo of archivos) {
+                    console.log("archivos: ", archivo)
+                    await this.personal.agregarArchivo(id, {
+                        nombreArchivo: archivo.filename,
+                        rutaArchivo: archivo.path,
+                        tipoArchivo: archivo.mimetype.startsWith('image/') ? 'imagen' : 'pdf'
+                    });
+                }
+            }
+
 
             res.json({
                 success: true,

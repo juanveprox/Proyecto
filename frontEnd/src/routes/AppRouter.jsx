@@ -18,6 +18,7 @@ import EditarPersonal from "../components/EditarPersonal.jsx";
 import AdminRouter from "./AdminRouter.jsx";
 import AccesoDenegado from "../pages/AccesoDenegado/AccesoDenegado.jsx";
 import EditarUsuario from "../pages/EditarUsuario/EditarUsuario.jsx";
+import Configuracion from "../pages/Configuracion/Configuracion.jsx"
 
 // Router con las rutas
 const router = createBrowserRouter([
@@ -101,6 +102,11 @@ const router = createBrowserRouter([
                     {
                         path: "/editar-usuario",
                         element: <AdminRouter> <EditarUsuario /></AdminRouter>
+
+                    },
+                    {
+                        path: "/configuracion",
+                        element: <Configuracion />
 
                     }
                 ]

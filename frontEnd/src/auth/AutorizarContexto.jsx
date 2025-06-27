@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }) => {
 
                     if (!userRespuesta.ok) throw new Error("Error en la respuesta");
                     const userData = await userRespuesta.json();
-                    console.log(userData)
                     setUser(userData.body.usuario);
                     setAccessToken(token);
                 }
@@ -70,6 +69,7 @@ export const AuthProvider = ({ children }) => {
 
             const json = (await respuesta.json())
             localStorage.setItem('accessToken', json.body.accessToken);
+            console.log(json.body.datosUsuario)
             setUser(json.body.datosUsuario);
             setAccessToken(json.body.accessToken);
 
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Función para refrescar el token (usada internamente)
+    //* Función para refrescar el token (usada internamente)
     const refreshToken = async () => {
         try {
             const respuesta = await fetch(`${API_ULR}/refresh-token`, {
@@ -121,9 +121,15 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    //* Función para actualizar el usuario
+    const updateUser = (newUserData) => {
+        setUser(prev => ({ ...prev, ...newUserData }));
+    };
+
     // Valor que estará disponible en los componentes
     const value = {
         user,
+        updateUser,
         accessToken,
         isAuthenticated,
         loading,

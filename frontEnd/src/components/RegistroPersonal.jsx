@@ -139,7 +139,6 @@ const BaseRegistroPersonal = ({ tipoPersonal = "docentes" }) => {
 
             // Agregar todos los campos del formulario
             Object.keys(formData).forEach(key => {
-                console.log(key)
 
                 if (key !== 'archivo' && formData[key]) {
                     formDataToSend.append(key, formData[key]);
@@ -152,6 +151,7 @@ const BaseRegistroPersonal = ({ tipoPersonal = "docentes" }) => {
                     formDataToSend.append(`archivos[${index}]`, archivo);
                 }
             });
+
             const datos = {};
             for (const [key, value] of formDataToSend) {
                 datos[key] = value;
@@ -201,7 +201,8 @@ const BaseRegistroPersonal = ({ tipoPersonal = "docentes" }) => {
                 tallaZapato: '',
                 archivo: null
             });
-            setFilePreview(null);
+            setArchivos([null, null, null])
+            setFilePreviews([]);
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }

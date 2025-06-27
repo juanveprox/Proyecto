@@ -55,10 +55,84 @@ const deleteUser = async (req, res) => {
     }
 };
 
+// Actualizar datos del usuario (excepto contraseña)
+const updateUserData = async (req, res) => {
+    const { id } = req.params;
+    const { nombre, usuario, correo } = req.body;
+
+    try {
+        const [result] = await pool.query(
+            `UPDATE usuarios 
+       SET nombre = ?, usuario = ?, correo = ? 
+       WHERE id = ?`,
+            [nombre, usuario, correo, id]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Obtener datos actualizados
+        const [updatedUser] = await pool.query(
+            'SELECT id, nombre, usuario, correo, rol FROM usuarios WHERE id = ?',
+            [id]
+        );
+
+        res.status(200).json({
+            message: 'Datos actualizados correctamente',
+            updatedUser: updatedUser[0]
+        });
+    } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ message: 'El correo o usuario ya existe' });
+        }
+        res.status(500).json({ message: 'Error al actualizar usuario' });
+    }
+};
+
+// Cambiar contraseña
+const updatePassword = async (req, res) => {
+    const { id } = req.params;
+    const { currentPassword, newPassword } = req.body;
+    console.log(id)
+    try {
+        // 1. Verificar contraseña actual
+        console.log("2hola")
+
+        const [user] = await pool.query(
+            'SELECT contraseña FROM usuarios WHERE id = ?',
+            [id]
+        );
+
+        if (user.length === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user[0].contraseña);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Contraseña actual incorrecta' });
+        }
+
+        // 2. Hashear nueva contraseña
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // 3. Actualizar en BD
+        await pool.query(
+            'UPDATE usuarios SET contraseña = ? WHERE id = ?',
+            [hashedPassword, id]
+        );
+
+        res.json({ message: 'Contraseña actualizada correctamente' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al cambiar contraseña' });
+    }
+};
 
 module.exports = {
     deleteUser,
     updateUser,
     createUser,
-    getUsers
+    getUsers,
+    updateUserData,
+    updatePassword
 }

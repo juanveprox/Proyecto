@@ -80,6 +80,8 @@ mysql -u [usuario] -p[contraseña] [base_datos] < archivo_backup.sql
 - Node.js y npm instalados en tu sistema.
 - Configura las variables de entorno según sea necesario para cada parte del proyecto.
 
-```
+## Nota
 
-```
+En la base de datos esta cargado un usuario admin
+Usuario:admin
+Contraseña: admin123
